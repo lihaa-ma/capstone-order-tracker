@@ -30,8 +30,44 @@
       </div>
     </form>
   </div>
+
+  <button
+    id="show-modal1"
+    class="btn btn-outline-danger"
+    @click="showModal = true"
+  >
+    Create Order
+  </button>
+
+  <Teleport to="body">
+    <!-- use the modal component, pass in the prop -->
+
+    <modal
+      :show="showModal"
+      @close="showModal = false"
+      @form-submit="createOrder()"
+    >
+      <template #header>
+        <h3>Create a new Order</h3>
+      </template>
+
+      <template #body>
+        <input
+          id="firstName"
+          v-model="firstName"
+          type="text"
+          class="form-control"
+          placeholder="First Name (i.e. Jane)"
+          required
+        >
+      </template>
+    </modal>
+  </Teleport>
   <!--Data Table-->
-  <table id="orders-table" class="table table-striped">
+  <table
+    id="orders-table"
+    class="table table-striped"
+  >
     <thead>
       <tr>
         <th scope="col">Order ID</th>
