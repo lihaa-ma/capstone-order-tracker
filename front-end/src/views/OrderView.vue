@@ -42,7 +42,7 @@
   <Teleport to="body">
     <!-- use the modal component, pass in the prop -->
 
-    <modal
+    <OrderModal
       :show="showModal"
       @close="showModal = false"
       @form-submit="createOrder()"
@@ -52,16 +52,63 @@
       </template>
 
       <template #body>
-        <input
-          id="firstName"
-          v-model="firstName"
-          type="text"
-          class="form-control"
-          placeholder="First Name (i.e. Jane)"
-          required
-        >
+        <div>
+          <p>
+            Customer Id:
+            <input
+              id="customerIDValue"
+              v-model="customerIdValue"
+              type="number"
+              class="form-control"
+              placeholder="Customer Id"
+              required
+            >
+          </p>
+          <p>
+            Order Id:
+            <input
+              id="orderIdValue"
+              v-model="orderIDValue"
+              type="number"
+              class="form-control"
+              placeholder="Order Id"
+              required
+            >
+          </p>
+          <p>
+            Order Status:
+            <input
+              id="orderStatusCode"
+              v-model="orderStatusCode"
+              type="number"
+              class="form-control"
+              placeholder="orderStatusCode(1 to 5)"
+              required
+            >
+          </p>
+          <p>
+            Shipping Address Id:
+            <input
+              id="shippingAddressID"
+              v-model="shippingAddressID"
+              type="number"
+              class="form-control"
+              placeholder="shippingAddressId"
+            >
+          </p>
+          <p>
+            Order Notes:
+            <input
+              id="orderNotes"
+              v-model="orderNotes"
+              type="text"
+              class="form-control"
+              placeholder="Order Notes"
+            >
+          </p>
+        </div>
       </template>
-    </modal>
+    </OrderModal>
   </Teleport>
   <!--Data Table-->
   <table
@@ -89,18 +136,25 @@
       </tr>
     </tbody>
   </table>
-  <div />
 </template>
 
 <script>
 import axios from 'axios';
-
+import OrderModal from '../components/CreateOrderModal.vue';
 export default {
   name: 'App',
+  components: {
+    OrderModal,
+  },
   data() {
     return {
       orders: [],
-
+      customerIdValue: '',
+      orderIDValue: '',
+      orderStatusCode: '',
+      shippingAddressID: '',
+      orderNotes: '',
+      showModal: false,
     };
   },
 
@@ -129,7 +183,19 @@ export default {
         });
       this.orders = [orders.data];
     },
-
+    async createOrder() {
+      await axios
+        .post('http://localhost:3000/api/v1/orders', {
+          orderId: this.orderIDValue,
+          customerId: this.customerIdValue,
+          orderStatusCode: this.orderStatusCode,
+          shippingAddressId: this.shippingAddressID,
+        })
+        .catch((errors) => {
+          console.log(errors); // Errors
+        });
+      this.orders = this.getOrders().data;
+    },
   },
 };
 </script>
