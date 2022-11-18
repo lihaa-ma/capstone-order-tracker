@@ -25,13 +25,16 @@
           class="btn btn-outline-danger"
           @click="getProducts"
         >
-          Get All Orders
+          Get All Products
         </button>
       </div>
     </form>
   </div>
   <!--Data Table-->
-  <table id="products-table" class="table table-striped">
+  <table
+    id="products-table"
+    class="table table-striped"
+  >
     <thead>
       <tr>
         <th scope="col">Product ID</th>

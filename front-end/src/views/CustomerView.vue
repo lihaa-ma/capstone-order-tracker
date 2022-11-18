@@ -29,7 +29,7 @@
           class="btn btn-outline-danger"
           @click="getCustomers()"
         >
-          Get All
+          Get All Customers
         </button>
       </div>
     </form>
